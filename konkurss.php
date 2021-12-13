@@ -17,6 +17,12 @@ if(isset($_REQUEST['punkt'])){
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+<nav>
+    <ul>
+        <li><a href="haldus.php">Administreerimise leht</a></li>
+        <li><a href="konkurss.php">Kasutaja leht</a></li>
+    </ul>
+</nav>
 <h1>Fotokonkurss "cats"</h1>
 <?php
 //tabeli sisu näitamine

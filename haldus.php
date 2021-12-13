@@ -2,9 +2,10 @@
 require('conf.php');
 global $yhendus;
 if(isset($_REQUEST['kustuta'])){
-    $kask=$yhendus->prepare("DELETE FROM konkurss WHERE id=?");
-    $kask->bind_param("i",$_REQUEST['kustuta']);
-    $kask->execute();
+        $kask=$yhendus->prepare("DELETE FROM konkurss WHERE id=?");
+        $kask->bind_param("i",$_REQUEST['kustuta']);
+        $kask->execute();
+
 }
 //punktid nulliksUPDATE
 if(isset($_REQUEST['punkt'])){
@@ -39,7 +40,18 @@ if(!empty($_REQUEST['nimi'])){
     <title>Fotokonkurssi - halduse leht</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+<script>
+    function myFunction() {
+        "Ta tatahab kustuta selle andmed?");
+    }
+</script>
 <body>
+<nav>
+    <ul>
+        <li><a href="haldus.php">Administreerimise leht</a></li>
+        <li><a href="konkurss.php">Kasutaja leht</a></li>
+    </ul>
+</nav>
 <h1>Fotokonkurssi - halduse leht</h1>
 <?php
 //tabeli sisu näitamine
@@ -63,7 +75,7 @@ while($kask->fetch()){
     }
     echo"<td>$seisund</td>";
     echo"<td><a href='?$param=$id'>$avatext</a></td>";
-    echo"<td><a href='?kustuta=$id'>kustuta</a></td>";
+    echo"<td><a href='?kustuta=$id' onclick='myFunction()'>kustuta</a></td>";
     echo"</tr>";
 }
 echo"</table>";
