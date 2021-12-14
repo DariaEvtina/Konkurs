@@ -1,4 +1,11 @@
 <?php
+session_start();
+if(!isset($_SESSION['tuvastamine'])){
+    header('Location: loginAB.php');
+    exit();
+}
+//admin - admin
+//opilane-opilane
 $a=true;
 global $a;
 require('conf.php');
@@ -63,6 +70,12 @@ if(!empty($_REQUEST['nimi'])){
         <li><a href="https://github.com/DariaEvtina/Konkurs">GitHub</a></li>
     </ul>
 </nav>
+<div>
+    <form action="logout.php" method="post">
+        <p><?=$_SESSION['kasutaja']?> on sisse loginud</p>
+        <input type="submit" value="Logi valja" name="logout">
+    </form>
+</div>
 <h1>Fotokonkurssi - halduse leht</h1>
 <?php
 //tabeli sisu näitamine
@@ -93,13 +106,6 @@ while($kask->fetch()){
 }
 echo"</table>";
 ?>
-<h2>Uue pilti lissamine</h2>
-<form action="?">
-    <input type="text" name="nimi" placeholder="uus nimi">
-    <br>
-    <textarea name="pilt"> pildi linki aadress</textarea>
-    <br>
-    <input type="submit" value="Lisa..">
-</form>
+<a href="lisamine.php" id="Hsubmit">Lissa tabelisse</a>
 </body>
 </html>
