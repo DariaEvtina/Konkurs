@@ -29,6 +29,7 @@ if(isset($_REQUEST['uus_komment'])){
     <ul>
         <li><a href="haldus.php">Administreerimise leht</a></li>
         <li><a href="konkurss.php">Kasutaja leht</a></li>
+        <li><a href="https://github.com/DariaEvtina/Konkurs">GitHub</a></li>
     </ul>
 </nav>
 <h1>Fotokonkurss "cats"</h1>

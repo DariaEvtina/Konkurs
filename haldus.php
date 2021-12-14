@@ -60,6 +60,7 @@ if(!empty($_REQUEST['nimi'])){
     <ul>
         <li><a href="haldus.php">Administreerimise leht</a></li>
         <li><a href="konkurss.php">Kasutaja leht</a></li>
+        <li><a href="https://github.com/DariaEvtina/Konkurs">GitHub</a></li>
     </ul>
 </nav>
 <h1>Fotokonkurssi - halduse leht</h1>
