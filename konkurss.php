@@ -8,6 +8,14 @@ if(isset($_REQUEST['punkt'])){
     $kask->execute();
     header("Location: $_SERVER[PHP_SELF]");
 }
+//uue kommentaari lisamine
+if(isset($_REQUEST['uus_komment'])){
+    $kask=$yhendus->prepare("UPDATE konkurss SET kommentaar=CONCAT(kommentaar, ?) WHERE id=?");
+    $kommentlisa= $_REQUEST['komment']."\n";
+    $kask->bind_param("si",$kommentlisa, $_REQUEST['uus_komment']);
+    $kask->execute();
+    header("Location: $_SERVER[PHP_SELF]");
+}
 ?>
 <!DOCTYPE html>
 <html lang="et">
@@ -26,15 +34,22 @@ if(isset($_REQUEST['punkt'])){
 <h1>Fotokonkurss "cats"</h1>
 <?php
 //tabeli sisu näitamine
-$kask=$yhendus->prepare("SELECT id,nimi,pilt,lisamisaeg,punktid, avalik FROM konkurss");
-$kask->bind_result($id,$nimi,$pilt,$aeg,$punktid, $avalik);
+$kask=$yhendus->prepare("SELECT id,nimi,pilt,kommentaar,punktid, avalik FROM konkurss");
+$kask->bind_result($id,$nimi,$pilt,$kommentaar,$punktid, $avalik);
 $kask->execute();
-echo"<table><tr><td>Nimi</td><td>Pilt</td><td>Lisamisaeg</td><td>punktid</td></tr>";
+echo"<table><tr><td>Nimi</td><td>Pilt</td><td>Kommentaar</td><td>Lisa Kommentaar</td><td>punktid</td></tr>";
 while($kask->fetch()){
     if($avalik==1){
         echo"<tr><td>$nimi</td>";
         echo"<td><img src='$pilt' alt='pilt'</td>";
-        echo"<td>$aeg</td>";
+        echo"<td>".nl2br($kommentaar)."</td>";
+        echo"<td> 
+        <form action='?'>
+        <input type='hidden' name='uss_komment' value=$id>
+        <input type='text' name='komment'>
+        <input type='submit' value='OK'>
+        </form>
+        </td>";
         echo"<td>$punktid</td>";
         echo"<td><a href='?punkt=$id'>+1 punkt</a></td>";
         echo"</tr>";

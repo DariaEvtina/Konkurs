@@ -14,6 +14,12 @@ if(isset($_REQUEST['punkt'])){
     $kask->execute();
     header("Location: $_SERVER[PHP_SELF]");
 }
+if(isset($_REQUEST['komment'])){
+    $kask=$yhendus->prepare("UPDATE konkurss SET kommentaar=' ' WHERE id=?");
+    $kask->bind_param("i",$_REQUEST['komment']);
+    $kask->execute();
+    header("Location: $_SERVER[PHP_SELF]");
+}
 //nimi naitamine avalik=1 UPDATE
 if(isset($_REQUEST['avamine'])){
     $kask=$yhendus->prepare("UPDATE konkurss SET avalik=1  WHERE id=?");
@@ -42,7 +48,8 @@ if(!empty($_REQUEST['nimi'])){
 </head>
 <!--<script>
     function myFunction() {
-        "Ta tatahab kustuta selle andmed?");
+        var answer =confirm("Ta tatahab kustuta selle andmed?");
+
     }
 </script>-->
 <body>
@@ -55,16 +62,11 @@ if(!empty($_REQUEST['nimi'])){
 <h1>Fotokonkurssi - halduse leht</h1>
 <?php
 //tabeli sisu näitamine
-$kask=$yhendus->prepare("SELECT id,nimi,pilt,lisamisaeg,punktid, avalik FROM konkurss");
-$kask->bind_result($id,$nimi,$pilt,$aeg,$punktid, $avalik);
+$kask=$yhendus->prepare("SELECT id,nimi,pilt,lisamisaeg,punktid, avalik, kommentaar FROM konkurss");
+$kask->bind_result($id,$nimi,$pilt,$aeg,$punktid, $avalik, $kommentaar);
 $kask->execute();
-echo"<table><tr><td>Nimi</td><td>Pilt</td><td>Lisamisaeg</td><td>punktid</td></tr>";
+echo"<table><tr><td></td><td></td><td></td><td>Nimi</td><td>Pilt</td><td>Lisamisaeg</td><td>punktid</td></tr>";
 while($kask->fetch()){
-    echo"<tr><td>$nimi</td>";
-    echo"<td><img src='$pilt' alt='pilt'</td>";
-    echo"<td>$aeg</td>";
-    echo"<td>$punktid</td>";
-    echo"<td><a href='?punkt=$id'>punktid nulliks</a></td>";
     $avatext="Ava";
     $param="avamine";
     $seisund="Peidetud";
@@ -73,9 +75,16 @@ while($kask->fetch()){
         $param="peitmine";
         $seisund="Avatud";
     }
-    echo"<td>$seisund</td>";
+    echo"<tr><td>$seisund</td>";
     echo"<td><a href='?$param=$id'>$avatext</a></td>";
     echo"<td><a href='?kustuta=$id' >kustuta</a></td>";/*onclick='myFunction()'*/
+    echo"<td>$nimi</td>";
+    echo"<td><img src='$pilt' alt='pilt'</td>";
+    echo"<td>$aeg</td>";
+    echo"<td>$punktid</td>";
+    echo"<td>$kommentaar</td>";
+    echo"<td><a href='?punkt=$id'>punktid nulliks</a></td>";
+    echo"<td><a href='?komment=$id'>komment nulliks</a></td>";
     echo"</tr>";
 }
 echo"</table>";
