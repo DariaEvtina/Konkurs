@@ -1,11 +1,14 @@
 <?php
+$a=true;
+global $a;
 require('conf.php');
 global $yhendus;
 if(isset($_REQUEST['kustuta'])){
+    if($a===true){
         $kask=$yhendus->prepare("DELETE FROM konkurss WHERE id=?");
         $kask->bind_param("i",$_REQUEST['kustuta']);
         $kask->execute();
-
+    }
 }
 //punktid nulliksUPDATE
 if(isset($_REQUEST['punkt'])){
@@ -46,12 +49,12 @@ if(!empty($_REQUEST['nimi'])){
     <title>Fotokonkurssi - halduse leht</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<!--<script>
+<script>
     function myFunction() {
-        var answer =confirm("Ta tatahab kustuta selle andmed?");
-
+        if(confirm("Ta tatahab kustuta selle andmed?")==true){<?php $a=true; ?>}
+        else if(confirm("Ta tatahab kustuta selle andmed?")==false){<?php $a=false; ?>}
     }
-</script>-->
+</script>
 <body>
 <nav>
     <ul>
@@ -67,6 +70,7 @@ $kask->bind_result($id,$nimi,$pilt,$aeg,$punktid, $avalik, $kommentaar);
 $kask->execute();
 echo"<table><tr><td></td><td></td><td></td><td>Nimi</td><td>Pilt</td><td>Lisamisaeg</td><td>punktid</td></tr>";
 while($kask->fetch()){
+    echo"<tr><td><a href='?kustuta=$id' onclick='myFunction()'>kustuta</a></td>";
     $avatext="Ava";
     $param="avamine";
     $seisund="Peidetud";
@@ -75,16 +79,15 @@ while($kask->fetch()){
         $param="peitmine";
         $seisund="Avatud";
     }
-    echo"<tr><td>$seisund</td>";
+    echo"<td>$seisund</td>";
     echo"<td><a href='?$param=$id'>$avatext</a></td>";
-    echo"<td><a href='?kustuta=$id' >kustuta</a></td>";/*onclick='myFunction()'*/
     echo"<td>$nimi</td>";
     echo"<td><img src='$pilt' alt='pilt'</td>";
     echo"<td>$aeg</td>";
     echo"<td>$punktid</td>";
     echo"<td>$kommentaar</td>";
-    echo"<td><a href='?punkt=$id'>punktid nulliks</a></td>";
-    echo"<td><a href='?komment=$id'>komment nulliks</a></td>";
+    echo"<td><a href='?punkt=$id'>punktid nulliks</a><br>";
+    echo"<a href='?komment=$id'>komment nulliks</a></td>";
     echo"</tr>";
 }
 echo"</table>";
