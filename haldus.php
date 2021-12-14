@@ -40,11 +40,11 @@ if(!empty($_REQUEST['nimi'])){
     <title>Fotokonkurssi - halduse leht</title>
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<script>
+<!--<script>
     function myFunction() {
         "Ta tatahab kustuta selle andmed?");
     }
-</script>
+</script>-->
 <body>
 <nav>
     <ul>
@@ -75,7 +75,7 @@ while($kask->fetch()){
     }
     echo"<td>$seisund</td>";
     echo"<td><a href='?$param=$id'>$avatext</a></td>";
-    echo"<td><a href='?kustuta=$id' onclick='myFunction()'>kustuta</a></td>";
+    echo"<td><a href='?kustuta=$id' >kustuta</a></td>";/*onclick='myFunction()'*/
     echo"</tr>";
 }
 echo"</table>";
